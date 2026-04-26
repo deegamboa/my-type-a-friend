@@ -1,7 +1,7 @@
 {
   "name": "my-type-a-friend",
   "version": "1.0.0",
-  "main": "App.jsx",
+  "main": "expo-router/entry",
   "scripts": {
     "start": "expo start",
     "ios": "expo start --ios",
@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "expo": "~52.0.0",
+    "expo-router": "~3.5.0",
     "expo-asset": "~9.0.0",
     "expo-notifications": "~0.29.0",
     "expo-device": "~7.0.0",
