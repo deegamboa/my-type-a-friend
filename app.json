@@ -1,0 +1,32 @@
+{
+  "expo": {
+    "name": "MTAF",
+    "slug": "my-type-a-friend",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "ios": {
+      "supportsTabletMode": false,
+      "bundleIdentifier": "com.mtaf.mytypeafriend",
+      "buildNumber": "1"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.mtaf.mytypeafriend"
+    },
+    "plugins": [
+      ["expo-notifications", { "color": "#1a6b5a", "defaultChannel": "default" }],
+      ["expo-calendar", {}],
+      ["expo-secure-store", {}]
+    ]
+  }
+}
