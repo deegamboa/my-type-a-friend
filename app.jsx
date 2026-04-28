@@ -13,7 +13,7 @@ import CurrencyScreen from './screens/CurrencyScreen.jsx';
 import SettingsScreen from './screens/SettingsScreen.jsx';
 import CustomScreen from './screens/CustomScreen.jsx';
 import { COLORS, TABS as TABS_CONFIG, STORAGE_KEYS } from './constants.js';
-import { safeAsync } from './errorUtils';
+import { safeAsync } from './errorUtils.js';
 
 // Initialize notification handler
 function initializeNotifications() {

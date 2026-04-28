@@ -5,50 +5,9 @@ import {
   ActivityIndicator, Switch,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
-const BRAND = '#1a6b5a';
-
-const CURRENCIES = [
-  { code: 'USD', flag: '🇺🇸', name: 'US Dollar',           symbol: '$'  },
-  { code: 'IDR', flag: '🇮🇩', name: 'Indonesian Rupiah',   symbol: 'Rp' },
-  { code: 'AUD', flag: '🇦🇺', name: 'Australian Dollar',   symbol: 'A$' },
-  { code: 'SGD', flag: '🇸🇬', name: 'Singapore Dollar',    symbol: 'S$' },
-  { code: 'JPY', flag: '🇯🇵', name: 'Japanese Yen',        symbol: '¥'  },
-  { code: 'KRW', flag: '🇰🇷', name: 'Korean Won',          symbol: '₩'  },
-  { code: 'EUR', flag: '🇪🇺', name: 'Euro',                symbol: '€'  },
-  { code: 'GBP', flag: '🇬🇧', name: 'British Pound',       symbol: '£'  },
-];
-
-const SPENDING = [
-  { label: 'Warung meal (local)',   usd: 3    },
-  { label: 'Restaurant meal',       usd: 12   },
-  { label: 'Bintang beer',          usd: 3.5  },
-  { label: 'Fresh coconut water',   usd: 1    },
-  { label: 'Massage (60 min)',       usd: 15   },
-  { label: 'Grab ride (5 km)',       usd: 2    },
-  { label: 'Temple entry fee',       usd: 2.5  },
-  { label: 'Market sarong',          usd: 5    },
-  { label: 'Kecak fire dance entry', usd: 15   },
-  { label: 'Kempinski cocktail',     usd: 18   },
-  { label: 'Spa treatment',          usd: 45   },
-  { label: 'Day club entry (Cretya)',usd: 35   },
-];
-
-const QUICK_AMOUNTS = {
-  USD: [5, 20, 100, 500],
-  IDR: [50000, 100000, 500000, 1000000],
-  AUD: [10, 50, 100, 500],
-  SGD: [10, 50, 100, 500],
-  JPY: [500, 1000, 5000, 10000],
-  KRW: [5000, 10000, 50000, 100000],
-  EUR: [10, 50, 100, 500],
-  GBP: [10, 50, 100, 500],
-};
-
-const FALLBACK_RATES = {
-  USD: 1, IDR: 16050, AUD: 1.54, SGD: 1.34,
-  JPY: 149.5, KRW: 1325, EUR: 0.92, GBP: 0.79,
-};
+import {
+  COLORS, CURRENCIES, SPENDING_EXAMPLES, QUICK_AMOUNTS, FALLBACK_RATES,
+} from '../constants.js';
 
 function fmt(value, code) {
   if (value === null || isNaN(value)) return '—';
@@ -130,7 +89,7 @@ export default function CurrencyScreen() {
                   <Text style={styles.pickerCode}>{c.code}</Text>
                   <Text style={styles.pickerName}>{c.name}</Text>
                 </View>
-                {c.code === selected && <Text style={{ color: BRAND, fontSize: 16 }}>✓</Text>}
+                {c.code === selected && <Text style={{ color: COLORS.BRAND, fontSize: 16 }}>✓</Text>}
               </TouchableOpacity>
             ))}
           </ScrollView>
@@ -151,7 +110,7 @@ export default function CurrencyScreen() {
         </View>
         <View style={styles.ratePill}>
           {loading
-            ? <ActivityIndicator size="small" color={BRAND} />
+            ? <ActivityIndicator size="small" color={COLORS.BRAND} />
             : <Text style={styles.rateDate}>{rateDate}</Text>
           }
         </View>
@@ -239,12 +198,12 @@ export default function CurrencyScreen() {
           <>
             <Text style={styles.sectionLabel}>Showing in {toCode} · tap to update currency above</Text>
             <View style={styles.spendingCard}>
-              {SPENDING.map((item, i) => {
+              {SPENDING_EXAMPLES.map((item, i) => {
                 const converted = convert(item.usd, 'USD', toCode, rates);
                 return (
                   <View key={i} style={[
                     styles.spendRow,
-                    i < SPENDING.length - 1 && styles.spendRowBorder
+                    i < SPENDING_EXAMPLES.length - 1 && styles.spendRowBorder
                   ]}>
                     <Text style={styles.spendLabel}>{item.label}</Text>
                     <View style={{ alignItems: 'flex-end' }}>
@@ -268,7 +227,7 @@ export default function CurrencyScreen() {
                 <View key={i} style={[styles.budgetRow, i < 4 && styles.budgetRowBorder]}>
                   <Text style={[styles.budgetLabel, i === 0 && { fontWeight: '600', color: '#333' }]}>{b.label}</Text>
                   <View style={{ alignItems: 'flex-end' }}>
-                    <Text style={[styles.budgetConverted, i === 0 && { fontWeight: '600', color: BRAND }]}>
+                    <Text style={[styles.budgetConverted, i === 0 && { fontWeight: '600', color: COLORS.BRAND }]}>
                       {fmt(convert(b.usd, 'USD', toCode, rates), toCode)}
                     </Text>
                     <Text style={styles.budgetUsd}>${b.usd.toLocaleString()}</Text>
@@ -298,7 +257,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',
     borderBottomWidth: 0.5, borderBottomColor: '#e0e0e0',
   },
-  brand: { fontSize: 22, fontWeight: '700', color: BRAND, letterSpacing: 2 },
+  brand: { fontSize: 22, fontWeight: '700', color: COLORS.BRAND, letterSpacing: 2 },
   subtitle: { fontSize: 11, color: '#999', marginTop: 1 },
   ratePill: {
     backgroundColor: '#f0f0f0', paddingHorizontal: 12,
@@ -313,7 +272,7 @@ const styles = StyleSheet.create({
     flex: 1, paddingVertical: 8, borderRadius: 8,
     backgroundColor: '#f0f0f0', alignItems: 'center',
   },
-  tabBtnActive: { backgroundColor: BRAND },
+  tabBtnActive: { backgroundColor: COLORS.BRAND },
   tabBtnText: { fontSize: 13, color: '#666', fontWeight: '500' },
   tabBtnTextActive: { color: '#fff' },
   scroll: { flex: 1 },
@@ -327,7 +286,7 @@ const styles = StyleSheet.create({
   fieldLabel: { fontSize: 11, color: '#999', marginBottom: 6 },
   amountInput: {
     fontSize: 24, fontWeight: '500', color: '#333',
-    borderBottomWidth: 1.5, borderBottomColor: BRAND,
+    borderBottomWidth: 1.5, borderBottomColor: COLORS.BRAND,
     paddingVertical: 4,
   },
   swapBtn: {
@@ -335,7 +294,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#f0f0f0', alignItems: 'center',
     justifyContent: 'center', marginBottom: 2,
   },
-  swapIcon: { fontSize: 18, color: BRAND },
+  swapIcon: { fontSize: 18, color: COLORS.BRAND },
   currencyBtn: {
     flexDirection: 'row', alignItems: 'center', gap: 8,
     backgroundColor: '#f7f7f7', borderRadius: 8,
@@ -345,7 +304,7 @@ const styles = StyleSheet.create({
   currencyCode: { fontSize: 15, fontWeight: '600', color: '#333', flex: 1 },
   chevron: { fontSize: 12, color: '#999' },
   resultCard: {
-    backgroundColor: BRAND, marginHorizontal: 12,
+    backgroundColor: COLORS.BRAND, marginHorizontal: 12,
     borderRadius: 12, padding: 20, alignItems: 'center',
   },
   resultLabel: { fontSize: 13, color: 'rgba(255,255,255,0.7)', marginBottom: 4 },
@@ -368,7 +327,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16, paddingTop: 16, alignItems: 'center',
   },
   rateLabel: { fontSize: 11, color: '#bbb' },
-  refreshBtn: { fontSize: 12, color: BRAND, fontWeight: '500' },
+  refreshBtn: { fontSize: 12, color: COLORS.BRAND, fontWeight: '500' },
   spendingCard: {
     backgroundColor: '#fff', marginHorizontal: 12,
     borderRadius: 12, overflow: 'hidden',

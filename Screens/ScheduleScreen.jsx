@@ -3,43 +3,10 @@ import {
   View, Text, ScrollView, TouchableOpacity,
   StyleSheet, SafeAreaView,
 } from 'react-native';
-import { notificationData } from './data/notifications';
-
-const BRAND = '#1a6b5a';
-
-const DAYS = [
-  { d: 1,  name: 'Travel day',           loc: 'DFW → SLC → ICN',     intensity: 'travel'   },
-  { d: 2,  name: 'Arrival in Bali',       loc: 'ICN → DPS',            intensity: 'travel'   },
-  { d: 3,  name: 'Spa morning',           loc: 'Uluwatu',              intensity: 'rest'     },
-  { d: 4,  name: 'Cliffside cocktails',   loc: 'Uluwatu',              intensity: 'moderate' },
-  { d: 5,  name: 'Temple + fire dance',   loc: 'Uluwatu',              intensity: 'moderate' },
-  { d: 6,  name: 'Resort & relax',        loc: 'Uluwatu',              intensity: 'rest'     },
-  { d: 7,  name: 'Sidemen escape',        loc: 'Uluwatu → Sidemen',    intensity: 'travel'   },
-  { d: 8,  name: 'Gili arrival',          loc: 'Sidemen → Gili T.',    intensity: 'intense'  },
-  { d: 9,  name: 'Explore the Gilis',     loc: 'Gili Trawangan',       intensity: 'moderate' },
-  { d: 10, name: 'Ubud arrival',          loc: 'Gilis → Ubud',         intensity: 'travel'   },
-  { d: 11, name: 'Relax & recharge',      loc: 'Ubud',                 intensity: 'rest'     },
-  { d: 12, name: 'Volcano + day club',    loc: 'Ubud',                 intensity: 'epic'     },
-  { d: 13, name: 'Adventure & culture',   loc: 'Ubud',                 intensity: 'intense'  },
-  { d: 14, name: 'Jungle fever',          loc: 'Ubud',                 intensity: 'moderate' },
-  { d: 15, name: 'Seminyak shopping',     loc: 'Ubud → Seminyak',      intensity: 'intense'  },
-  { d: 16, name: 'Beach bliss',           loc: 'Seminyak / Canggu',    intensity: 'moderate' },
-  { d: 17, name: 'Brunch finale',         loc: 'Seminyak → DPS',       intensity: 'moderate' },
-  { d: 18, name: 'Departure + Seoul',     loc: 'DPS → ICN → DFW',     intensity: 'travel'   },
-];
-
-const INTENSITY_COLOR = {
-  rest:     '#1D9E75',
-  travel:   '#888780',
-  moderate: '#378ADD',
-  intense:  '#BA7517',
-  epic:     '#E24B4A',
-};
-
-const INTENSITY_LABEL = {
-  rest: 'Rest', travel: 'Travel', moderate: 'Moderate',
-  intense: 'Intense', epic: 'EPIC',
-};
+import { notificationData } from '../data/notifications.js';
+import {
+  COLORS, SCHEDULE_DAYS, INTENSITY_COLORS, INTENSITY_LABELS, EMOJI_BY_TYPE,
+} from '../constants.js';
 
 export default function ScheduleScreen() {
   const [expanded, setExpanded] = useState(null);
@@ -52,20 +19,20 @@ export default function ScheduleScreen() {
           <Text style={styles.subtitle}>18-Day Schedule</Text>
         </View>
         <View style={styles.legend}>
-          {Object.entries(INTENSITY_COLOR).map(([k, c]) => (
+          {Object.entries(INTENSITY_COLORS).map(([k, c]) => (
             <View key={k} style={styles.legendItem}>
               <View style={[styles.legendDot, { backgroundColor: c }]} />
-              <Text style={styles.legendText}>{INTENSITY_LABEL[k]}</Text>
+              <Text style={styles.legendText}>{INTENSITY_LABELS[k]}</Text>
             </View>
           ))}
         </View>
       </View>
 
       <ScrollView style={styles.list} contentContainerStyle={{ paddingBottom: 32 }}>
-        {DAYS.map(day => {
+        {SCHEDULE_DAYS.map(day => {
           const notifs = notificationData[day.d] || [];
           const isOpen = expanded === day.d;
-          const color = INTENSITY_COLOR[day.intensity];
+          const color = INTENSITY_COLORS[day.intensity];
 
           return (
             <View key={day.d}>
@@ -92,14 +59,14 @@ export default function ScheduleScreen() {
                 <View style={styles.expandedPanel}>
                   <View style={[styles.intensityBadge, { backgroundColor: color + '20' }]}>
                     <Text style={[styles.intensityText, { color }]}>
-                      {INTENSITY_LABEL[day.intensity]} day
+                      {INTENSITY_LABELS[day.intensity]} day
                     </Text>
                   </View>
                   {notifs.map((n, i) => (
                     <View key={i} style={[styles.notifRow, i < notifs.length - 1 && styles.notifBorder]}>
                       <Text style={styles.notifTime}>{n.t}</Text>
                       <Text style={styles.notifEmoji}>
-                        {{ wake:'⏰',hydrate:'💧',ready:'👗',travel:'🗺️',unplug:'🌿',food:'🍽️',wellness:'🧘',reminder:'📌'}[n.ty] || '📌'}
+                        {EMOJI_BY_TYPE[n.ty] || '📌'}
                       </Text>
                       <View style={{ flex: 1 }}>
                         <Text style={styles.notifTitle}>{n.h}</Text>
@@ -124,7 +91,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16, paddingTop: 12, paddingBottom: 10,
     borderBottomWidth: 0.5, borderBottomColor: '#e0e0e0',
   },
-  brand: { fontSize: 22, fontWeight: '700', color: BRAND, letterSpacing: 2 },
+  brand: { fontSize: 22, fontWeight: '700', color: COLORS.BRAND, letterSpacing: 2 },
   subtitle: { fontSize: 11, color: '#999', marginTop: 1, marginBottom: 10 },
   legend: { flexDirection: 'row', flexWrap: 'wrap', gap: 10 },
   legendItem: { flexDirection: 'row', alignItems: 'center', gap: 4 },
