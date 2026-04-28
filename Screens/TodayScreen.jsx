@@ -4,7 +4,7 @@ import {
   StyleSheet, SafeAreaView, TextInput,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { notificationData } from '../data/notifications';
+import { notificationData } from './data/notifications';
 import {
   COLORS,
   TYPE_COLORS,
@@ -15,7 +15,7 @@ import {
   DAY_NAMES,
   STORAGE_KEYS,
   SNOOZE_BUTTON_TEXT,
-} from '../constants';
+} from './constants';
 import { safeAsync, safeJsonParse, safeJsonStringify } from '../errorUtils';
 
 function getTripDay() {

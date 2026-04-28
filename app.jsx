@@ -7,12 +7,12 @@ import * as Notifications from 'expo-notifications';
 import * as Device from 'expo-device';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import TodayScreen from './screens/TodayScreen';
-import ScheduleScreen from './screens/ScheduleScreen';
-import CurrencyScreen from './screens/CurrencyScreen';
-import SettingsScreen from './screens/SettingsScreen';
-import CustomScreen from './screens/CustomScreen';
-import { COLORS, TABS as TABS_CONFIG, STORAGE_KEYS } from './constants';
+import TodayScreen from './screens/TodayScreen.jsx';
+import ScheduleScreen from './screens/ScheduleScreen.jsx';
+import CurrencyScreen from './screens/CurrencyScreen.jsx';
+import SettingsScreen from './screens/SettingsScreen.jsx';
+import CustomScreen from './screens/CustomScreen.jsx';
+import { COLORS, TABS as TABS_CONFIG, STORAGE_KEYS } from './constants.js';
 import { safeAsync } from './errorUtils';
 
 // Initialize notification handler

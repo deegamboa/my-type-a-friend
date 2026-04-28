@@ -3,7 +3,7 @@ import {
   View, Text, ScrollView, TouchableOpacity,
   StyleSheet, SafeAreaView,
 } from 'react-native';
-import { notificationData } from '../data/notifications';
+import { notificationData } from './data/notifications';
 
 const BRAND = '#1a6b5a';
 
